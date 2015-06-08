@@ -176,7 +176,13 @@ class MonoReleaseProfile(DarwinProfile, MonoReleasePackages):
         resources_dir = os.path.join(working_dir, "resources")
         distribution_xml = os.path.join(resources_dir, "distribution.xml")
 
+        template_file = resources_dir + "/../preinstall.template"
+        preinstall_file = resources_dir + "/preinstall"
+        copyfile(template_file, preinstall_file)
+        replace_in_file(preinstall_file, {"RELEASE_VERSION", self.RELEASE_VERSION});
+
         old_cwd = os.getcwd()
+
         os.chdir(working_dir)
         pkgbuild = "/usr/bin/pkgbuild"
         pkgbuild_cmd = ' '.join([pkgbuild,
